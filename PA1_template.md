@@ -1,40 +1,68 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r echo=FALSE}
-knitr::opts_chunk$set(fig.path='figure/')
-```
 
-```{r}
+
+
+```r
 unzip("activity.zip")
 data <- read.csv("activity.csv")
 ```
 
 ## What is mean total number of steps taken per day?
-```{r}
+
+```r
 stepsByDate <- aggregate(steps ~ date, data = data, FUN = sum)
 barplot(height = stepsByDate$steps, names.arg = stepsByDate$date, xlab="Date", ylab="Steps")
+```
+
+![](figure/unnamed-chunk-3-1.png) 
+
+```r
 mean(stepsByDate$steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(stepsByDate$steps)
 ```
 
+```
+## [1] 10765
+```
+
 ## What is the average daily activity pattern?
-```{r}
+
+```r
 stepsByInterval <- aggregate(steps ~ interval, data = data, FUN = mean)
 plot(stepsByInterval, type="l")
+```
+
+![](figure/unnamed-chunk-4-1.png) 
+
+```r
 stepsByInterval$interval[which.max(stepsByInterval$steps)]
 ```
 
-## Imputing missing values
-```{r}
-sum(is.na(data))
+```
+## [1] 835
+```
 
+## Imputing missing values
+
+```r
+sum(is.na(data))
+```
+
+```
+## [1] 2304
+```
+
+```r
 dataBis <- merge(x = data, y=stepsByInterval, by="interval", suffixes=c("",".y"))
 nas <- is.na(dataBis$steps)
 dataBis$steps[nas] <- dataBis$steps.y[nas]
@@ -42,12 +70,18 @@ dataBis <- dataBis[,c(1:3)]
 
 stepsByDateBis <- aggregate(steps ~ date, data = dataBis, FUN = sum)
 barplot(height = stepsByDateBis$steps, names.arg = stepsByDateBis$date, xlab="Date", ylab="Steps")
+```
+
+![](figure/unnamed-chunk-5-1.png) 
+
+```r
 meanStepsByDateBis <- mean(stepsByDateBis$steps)
 medianStepsByDateBis <- median(stepsByDateBis$steps)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
 daytype <- function(date) {
   if (weekdays(as.Date(date)) %in% c("Samedi", "Dimanche")) {
     "weekend"
@@ -65,3 +99,5 @@ par(mfrow = c(2, 1))
 plot(stepsByIntervalWeekday, type="l",main="Weekday")
 plot(stepsByIntervalWeekend, type="l", main="Weekend")
 ```
+
+![](figure/unnamed-chunk-6-1.png) 
