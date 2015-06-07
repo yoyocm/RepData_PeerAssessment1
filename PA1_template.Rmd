@@ -1,8 +1,8 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
 output: 
-  html_document:
-    keep_md: true
+html_document:
+keep_md: true
 ---
 
 
@@ -42,19 +42,19 @@ dataBis <- dataBis[,c(1:3)]
 
 stepsByDateBis <- aggregate(steps ~ date, data = dataBis, FUN = sum)
 barplot(height = stepsByDateBis$steps, names.arg = stepsByDateBis$date, xlab="Date", ylab="Steps")
-meanStepsByDateBis <- mean(stepsByDateBis$steps)
-medianStepsByDateBis <- median(stepsByDateBis$steps)
+mean(stepsByDateBis$steps)
+median(stepsByDateBis$steps)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r}
 daytype <- function(date) {
-  if (weekdays(as.Date(date)) %in% c("Samedi", "Dimanche")) {
-    "weekend"
-  } else {
-    "weekday"
-  }
-}
+    if (weekdays(as.Date(date)) %in% c("Samedi", "Dimanche")) {
+        "weekend"
+        } else {
+            "weekday"
+            }
+    }
 
 dataBis$daytype <- as.factor(sapply(dataBis$date, daytype))
 
