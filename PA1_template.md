@@ -75,8 +75,8 @@ barplot(height = stepsByDateBis$steps, names.arg = stepsByDateBis$date, xlab="Da
 ![](figure/unnamed-chunk-5-1.png) 
 
 ```r
-meanStepsByDateBis <- mean(stepsByDateBis$steps)
-medianStepsByDateBis <- median(stepsByDateBis$steps)
+mean(stepsByDateBis$steps)
+median(stepsByDateBis$steps)
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
